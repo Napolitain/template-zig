@@ -1,0 +1,29 @@
+name: CI
+
+on:
+    push:
+        branches: [main]
+    pull_request:
+
+jobs:
+    ci:
+        runs-on: ubuntu-26.04
+        steps:
+            - uses: actions/checkout@v7.0.1
+
+            # Uses minimum_zig_version from build.zig.zon.
+            - uses: mlugg/setup-zig@v2.2.1
+
+            - run: sudo apt-get update && sudo apt-get install -y kcov
+
+            - name: Hooks (pre-commit)
+              uses: j178/prek-action@v3.0.0
+
+            - name: Hooks (pre-push)
+              run: prek run --show-diff-on-failure --all-files --hook-stage pre-push
+
+            - name: Coverage
+              run: zig build coverage
+
+            - name: Release build
+              run: zig build -Doptimize=ReleaseFast
