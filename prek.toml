@@ -40,9 +40,9 @@ priority = 20
 
 [[repos.hooks]]
 id = "zig-test"
-name = "zig build test"
+name = "zig build test coverage (min 80%)"
 language = "system"
-entry = "zig build test"
+entry = "zig build test coverage"
 files = '\.(zig|zon)$'
 pass_filenames = false
 stages = ["pre-push"]
