@@ -45,3 +45,16 @@ requires Linux; building and running tests also work on macOS.
 ## Coverage
 
 [kcov](https://github.com/SimonKagstrom/kcov) (`nix shell nixpkgs#kcov`, `apt install kcov`) runs on pre-push and in CI. Coverage of `src/` (library tests) fails below 80% lines; override with `zig build coverage -Dcoverage-min=90`. The check is `tools/coverage_check.zig`, reading kcov's `coverage.json`.
+
+## Profile-guided optimization
+
+No supported PGO workflow is exposed for Zig sources by this template's Zig 0.16
+CLI/build API. Instrumentation generate/use, sampling/AutoFDO and Propeller-style
+layout/relinking are therefore not supplied. `zig build-exe --help` exposes LLVM
+backend and LTO switches, but that does not imply profile generation or consumption.
+Clang flags accepted by `zig cc` for C/C++ do not enable PGO for `src/*.zig`.
+
+Continue using `zig build -Doptimize=ReleaseFast`. Measure realistic workloads
+with repeated runs before changing optimization settings. kcov measures test
+coverage; its output is not an optimization profile. Reassess support when changing
+Zig versions against the [Zig source and build API](https://github.com/ziglang/zig).
