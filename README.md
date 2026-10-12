@@ -1,5 +1,7 @@
 # template-zig
 
+See [AGENTS.md](AGENTS.md) for the working, verification, performance and commit policies.
+
 Minimal Zig template, hooks via [prek](https://prek.j178.dev).
 
 ```
